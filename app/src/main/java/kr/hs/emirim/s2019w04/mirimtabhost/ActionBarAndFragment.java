@@ -41,10 +41,23 @@ public class ActionBarAndFragment extends AppCompatActivity {
         bar.addTab(tabYo);
     }
 
+    MyFragment myFrags[] = new MyFragment[3];
+
     ActionBar.TabListener tabListener = new ActionBar.TabListener() {
         @Override
         public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+            MyFragment myFrag = null;
+            if(myFrags[tab.getPosition()] == null){
+                myFrag = new MyFragment();
+                Bundle data = new Bundle();
+                data.putString("tabName", tab.getText().toString());
+                myFrag.setArguments(data);
+                myFrags[tab.getPosition()] = myFrag;
+            }else{
+                myFrag = myFrags[tab.getPosition()];
+            }
 
+            ft.replace(android.R.id.content, myFrag);
         }
 
         @Override
